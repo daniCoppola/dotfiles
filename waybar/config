@@ -1,0 +1,65 @@
+{
+	"layer": "top",	
+	"position": "top",
+
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["custom/zen" ,"clock"],
+    "modules-right": ["network", "cpu", "memory", "backlight", "pulseaudio", "battery"],
+
+
+	"sway/workspaces": {
+        "disable-scroll": true,
+        "disable-markup": true,
+        "format": "{index}" 
+    },
+
+    "clock": {
+        "format": "{:%a, %b %e - %R}",
+        "interval": 30
+    },
+    
+    "battery": {
+        "bat": "BAT0",
+        "format": "BAT: {capacity}%  ",
+        "interval": 30
+    },
+
+    "network": {
+        "interface": "wlp59s0", 
+        "format-wifi": "WiFi: {essid} ({signalStrength}%)",
+        "format-disconnected": "WiFi Disconnected",
+        "interval": 60,
+        "on-click": "nm-connection-editor"
+    },
+    
+    "cpu": {
+        "format": "CPU: {usage}%",
+        "tooltip": false
+    },
+
+    "memory": {
+        "format": "RAM: {}%",
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G used"
+    },
+   
+    "pulseaudio": {
+        "format": "VOL: {volume}%",
+        "format-bluetooth": "VOL: {volume}%   ",
+        "format-muted":"VOL: Mute",
+        "interval": 60,
+
+        "disable-scroll": true
+    },
+
+    "backlight": {
+    	"device": "intel_backlight",
+    	"format": "BRI: {percent}%",
+    },
+    "custom/zen": {
+		"format": "Z:{}",
+		"max-length": 40,
+		"interval": 30, // Remove this if your script is endless and write in loop
+		"exec": "cat /tmp/mako_zen 2 > /dev/null", // Script in resources folder
+		"return-type": "json"
+   }
+}
