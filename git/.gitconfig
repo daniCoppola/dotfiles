@@ -1,0 +1,5 @@
+[user]
+	email = daniele.coppola@inf.ethz.ch
+	name = Daniele Coppola
+[core]
+	editor = nvim
