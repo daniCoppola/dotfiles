@@ -1,40 +1,22 @@
+# ./install.sh <pkg_manager e.g. apt>
 # Install nvim, zsh, oh-my-zsh
-pkgManager=dnf
-# sudo dnf install zsh
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-#
-# sudo dnf install -y neovim python3-neovim
-# sudo dnf install nvim
-# git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+package_manager=$1
 
-# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+# ZSH
+sudo $package_manager install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# sudo dnf install zsh-syntax-highlighting zsh-autosuggestions
-# 
-#
-# CrOeate symlinks 
-mkdir -p "$HOME/.dotfiles.bkp"
-for file in $(ls -a); do
-  # Skip directories (.) and (..) as well as specific files
-  if [[ "$file" != "." && "$file" != ".." && "$file" != ".gitignore" && "$file" != "install.sh" && "$file" != ".git" ]]; then
-    # Define the target symlink path
-    target="$HOME/.config/$file"
+# Nvim kickstart
+sudo $package_manager install -y neovim python3-neovim
+sudo $package_manager install nvim
+git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 
-    # Check if the file already exists in the target directory
-    if [[ -e "$target" ]]; then
-      # Backup the existing file or symlink
-      mv "$target" "$HOME/.dotfiles.bkp/$file"
-      echo "Backed up existing $file to $HOME/.dotfiles.bkp"
-    fi
+sudo $package_manager lazygit
 
-    # Create the symlink in $HOME/.config
-    ln -s "$(pwd)/$file" "$target"
-    echo "Created symlink for $file in $HOME/.config"
-  fi
+for pkg in $(find . -maxdepth 1 -mindepth 1 -type d); do
+  stow --adopt $pkg
+  git restore .
+  stow $pkg
 done
-mv $HOME/.zshrc $HOME/.dotfiles.bkp/
-mv $HOME/.tmux.conf $HOME/.dotfiles.bkp/.tmux.conf
-
-ln -s $(pwd)/.zshrc $HOME/.zshrc
-ln -s $(pwd)/.tmux.conf $HOME/.tmux.conf
