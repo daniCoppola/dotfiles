@@ -1,7 +1,7 @@
 # ./install.sh <pkg_manager e.g. apt>
 # Install nvim, zsh, oh-my-zsh
 package_manager=$1
-
+# 
 # ZSH
 sudo $package_manager install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -15,8 +15,9 @@ git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HO
 
 sudo $package_manager lazygit
 
-for pkg in $(find . -maxdepth 1 -mindepth 1 -type d); do
+for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do
+  pkg=$(basename $dir) 
   stow --adopt $pkg
-  git restore .
+  git restore $pkg
   stow $pkg
 done
