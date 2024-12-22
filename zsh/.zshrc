@@ -127,4 +127,4 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-PATH=$PATH:$HOME/.local/bin/nvim-linux64/bin
+PATH=$PATH:/opt/nvim-linux64/bin

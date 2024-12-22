@@ -1,5 +1,5 @@
 vim.opt.relativenumber = true
-
+-- TEST
 -- Telescope
 vim.keymap.set("n", "<leader>sb", require("telescope.builtin").buffers, { desc = "[S]earch [B]uffers" })
 vim.keymap.set("n", "<leader>sk", require("telescope.builtin").keymaps, { desc = "[S]earch [K]eymaps" })
@@ -75,6 +75,17 @@ require("lspconfig").clangd.setup({
 	filetypes = { "c", "cpp", "objc", "objcpp" },
 	root_dir = require("lspconfig").util.root_pattern("compile_commands.json", "CMakeLists.txt", ".git"),
 })
+
+vim.api.nvim_set_keymap('n', '<leader>1', '1gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>2', '2gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>3', '3gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>4', '4gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>5', '5gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>6', '6gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>7', '7gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>8', '8gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>9', '9gt', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>0', ':tablast<CR>', {noremap = true, silent = true})
 
 -- vim.api.nvim_create_autocmd("FileType", {
 --     pattern = "tex",  -- Apply only to LaTeX files

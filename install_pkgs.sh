@@ -1,6 +1,9 @@
-sudo dnf install -y neovim python3-neovim
-sudo dnf install zathura
-sudo dnf group install sway-desktop-environment
-sudo dnf install mako
-sudo dnf install alacritty
-sudo dnf install wofi
+sudo apt install sway
+sudo apt install -y neovim python3-neovim
+sudo apt install zathura
+sudo apt group install sway-desktop-environment
+sudo apt install mako
+sudo apt install alacritty
+sudo apt install wofi
+sudo apt install waybar 
+sudo apt install tmux

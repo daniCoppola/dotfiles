@@ -1,6 +1,11 @@
-# ./install.sh <pkg_manager e.g. apt>
+if [ "$#" -ne 1 ]; then
+    echo "No arguments provided."
+    echo "./install.sh <pkg_manager e.g. apt>"
+fi
+
 # Install nvim, zsh, oh-my-zsh
 package_manager=$1
+sudo $package_manager install curl tmux
 # 
 # ZSH
 sudo $package_manager install zsh
@@ -10,13 +15,32 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 
 # Nvim kickstart
 sudo $package_manager install -y neovim python3-neovim
-sudo $package_manager install nvim
 git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 
-sudo $package_manager lazygit
+CWD=$(pwd)
+cd /tmp 
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar xf lazygit.tar.gz lazygit
+sudo install lazygit -D -t /usr/local/bin/
+
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux64.tar.gz
+
+
+cd $CWD
+
+exit
+## Begin STOW
+echo "Begin stowing"
 
 for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do
   pkg=$(basename $dir) 
+  echo $pkg
+  if [ "$pkg" == ".git" ]; then
+      continue  # Skip to the next iteration if it's .git
+  fi
   stow --adopt $pkg
   git restore $pkg
   stow $pkg
