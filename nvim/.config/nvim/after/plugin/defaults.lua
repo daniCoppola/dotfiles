@@ -76,68 +76,62 @@ require("lspconfig").clangd.setup({
 	root_dir = require("lspconfig").util.root_pattern("compile_commands.json", "CMakeLists.txt", ".git"),
 })
 
-vim.api.nvim_set_keymap('n', '<leader>1', '1gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>2', '2gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>3', '3gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>4', '4gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>5', '5gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>6', '6gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>7', '7gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>8', '8gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>9', '9gt', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>0', ':tablast<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>1", "1gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>2", "2gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>3", "3gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>4", "4gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>5", "5gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>6", "6gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>7", "7gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>8", "8gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>9", "9gt", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>0", ":tablast<CR>", { noremap = true, silent = true })
 
--- vim.api.nvim_create_autocmd("FileType", {
---     pattern = "tex",  -- Apply only to LaTeX files
---     callback = function()
---         vim.opt_local.foldmethod = "expr"
---         vim.opt_local.foldexpr = "v:lua.LaTeXFoldExpr()"
---         vim.opt_local.foldnestmax = 5
---         -- Define the LaTeX fold expression function
---         function LaTeXFoldExpr()
---             local line = vim.fn.getline(vim.v.lnum)  -- Get the current line text
---
---             print("Function")  -- D
---             -- Define fold levels based on LaTeX sectioning commands
---             if line:match("^\\chapter") then
---                 return "1"
---             elseif line:match("^\\section") then
---                 return "2"
---             elseif line:match("^\\subsection") then
---                 return "3"
---             elseif line:match("^\\subsubsection") then
---                 return "4"
---             elseif line:match("^\\paragraph") then
---                 return "5"
---             elseif line:match("^\\subparagraph") then
---                 return "6"
---             else
---                 return "="  -- Do not change fold level for other lines
---             end
---         end
---           vim.opt_local.foldtext = [[
---             local fold_lines = {}
---             -- Iterate over all lines in the fold range
---             for i = v:foldstart + 1, v:foldend do
---                 -- Check if the line has a lower fold level than the current fold
---                 if vim.fn.foldlevel(i) > vim.fn.foldlevel(v:foldstart) then
---                     -- Add the first line of the lower-level fold
---                     table.insert(fold_lines, getline(i))
---                 end
---             end
---
---             -- Number of folded lines
---             local fold_count = v:foldend - v:foldstart
---
---             -- If there are any lower folds, join them with a separator
---             if #fold_lines > 0 then
---                 return getline(v:foldstart) .. ' --> ' .. table.concat(fold_lines, ', ') .. ' (' .. fold_count .. ' more lines)'
---             else
---                 return getline(v:foldstart) .. ' (' .. fold_count .. ' more lines)'
---             end
---         ]]
---
---
---     end,
--- })
---
+local warnings_enabled = true
+local function toggle_warnings()
+	warnings_enabled = not warnings_enabled
+	if warnings_enabled then
+		print("Warnings enabled")
+		vim.diagnostic.config({
+			virtual_text = true,
+			signs = true,
+			underline = true,
+		})
+	else
+		print("Warnings disabled")
+		vim.diagnostic.config({
+			severity_sort = true,
+			float = {
+				severity = {
+					min = vim.diagnostic.severity.ERROR,
+				},
+			},
+			virtual_text = {
+				severity = {
+					min = vim.diagnostic.severity.ERROR,
+				},
+			},
+			signs = {
+				severity = {
+					min = vim.diagnostic.severity.ERROR,
+				},
+			},
+			underline = {
+				severity = {
+					min = vim.diagnostic.severity.ERROR,
+				},
+			},
+		})
+	end
+end
+
+vim.api.nvim_create_user_command(
+	"ToggleWarnings", -- Name of the command
+	function()
+		toggle_warnings()
+	end, -- Call the function
+	{} -- Options (e.g., nargs for arguments, bang for `!` modifier, etc.)
+)
+
+-- Keymap to toggle warnings with <leader>tw
+vim.api.nvim_set_keymap("n", "<leader>tw", "<cmd>ToggleWarnings<CR>", { noremap = true, silent = true })
