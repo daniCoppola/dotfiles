@@ -46,9 +46,9 @@ bindsym Control+$mod+f exec swaymsg output eDP-1 disable
 #
 
 # exec swayidle -w timeout 10 'swaylock -f -c 000000' timeout 20 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
-exec swayidle -w \
-      timeout 600 'swaylock -f -c 000000' \
-      timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' #\
+# exec swayidle -w \
+      # timeout 600 'swaylock -f -c 000000' \
+      # timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' #\
 #before-sleep 'swaylock -f -c 000000'
 output * bg ~/.config/sway/quote.jpg center #000000
 ### Fix title size
@@ -288,3 +288,6 @@ exec mako
 # bindsym $mod+ Shift + $left move workspace to output left
 # bindsym $mod+ Shift + $down move workspace to output down
 # bindsym $mod+ Shift + $right move workspace to output right
+
+exec redshift-gtk
+exec systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK I3SOCK XCURSOR_SIZE XCURSOR_THEME

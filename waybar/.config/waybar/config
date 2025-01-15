@@ -25,7 +25,7 @@
     },
 
     "network": {
-        "interface": "wlp59s0", 
+        "interface": "wlp0s20f3", 
         "format-wifi": "WiFi: {essid} ({signalStrength}%)",
         "format-disconnected": "WiFi Disconnected",
         "interval": 60,
