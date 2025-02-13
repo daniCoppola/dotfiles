@@ -1,5 +1,5 @@
 sudo apt install sway
-sudo apt install -y neovim python3-neovim
+sudo apt install -y neovim python3-neovim luarocks
 sudo apt install zathura
 sudo apt group install sway-desktop-environment
 sudo apt install mako

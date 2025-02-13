@@ -135,3 +135,76 @@ vim.api.nvim_create_user_command(
 
 -- Keymap to toggle warnings with <leader>tw
 vim.api.nvim_set_keymap("n", "<leader>tw", "<cmd>ToggleWarnings<CR>", { noremap = true, silent = true })
+
+-- Add the plugin configuration here in after/plugin/defaults.lua
+
+require("gitsigns").setup({
+	on_attach = function(bufnr)
+		local gitsigns = require("gitsigns")
+
+		local function map(mode, l, r, desc, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			opts.desc = desc
+			vim.keymap.set(mode, l, r, opts)
+		end
+
+		-- Navigation
+		map("n", "]c", function()
+			if vim.wo.diff then
+				vim.cmd.normal({ "]c", bang = true })
+			else
+				gitsigns.nav_hunk("next")
+			end
+		end, "Go to next Git hunk")
+
+		map("n", "[c", function()
+			if vim.wo.diff then
+				vim.cmd.normal({ "[c", bang = true })
+			else
+				gitsigns.nav_hunk("prev")
+			end
+		end, "Go to previous Git hunk")
+
+		-- Actions
+		map("n", "<leader>hs", gitsigns.stage_hunk, "Stage Git hunk")
+		map("n", "<leader>hr", gitsigns.reset_hunk, "Reset Git hunk")
+
+		map("v", "<leader>hs", function()
+			gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+		end, "Stage selected Git hunk")
+
+		map("v", "<leader>hr", function()
+			gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+		end, "Reset selected Git hunk")
+
+		map("n", "<leader>hS", gitsigns.stage_buffer, "Stage entire buffer")
+		map("n", "<leader>hR", gitsigns.reset_buffer, "Reset entire buffer")
+		map("n", "<leader>hp", gitsigns.preview_hunk, "Preview Git hunk")
+		map("n", "<leader>hi", gitsigns.preview_hunk_inline, "Preview Git hunk inline")
+
+		map("n", "<leader>hb", function()
+			gitsigns.blame_line({ full = true })
+		end, "Show blame for current line")
+
+		map("n", "<leader>hd", gitsigns.diffthis, "Diff against index")
+
+		map("n", "<leader>hD", function()
+			gitsigns.diffthis("~")
+		end, "Diff against last commit")
+
+		map("n", "<leader>hQ", function()
+			gitsigns.setqflist("all")
+		end, "Add all hunks to quickfix list")
+
+		map("n", "<leader>hq", gitsigns.setqflist, "Add current buffer hunks to quickfix list")
+
+		-- Toggles
+		map("n", "<leader>tb", gitsigns.toggle_current_line_blame, "Toggle inline blame")
+		map("n", "<leader>td", gitsigns.toggle_deleted, "Toggle deleted lines")
+		map("n", "<leader>tw", gitsigns.toggle_word_diff, "Toggle word diff")
+
+		-- Text object
+		map({ "o", "x" }, "ih", gitsigns.select_hunk, "Select Git hunk")
+	end,
+})
