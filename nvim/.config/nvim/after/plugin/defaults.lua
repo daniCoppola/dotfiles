@@ -86,7 +86,6 @@ vim.api.nvim_set_keymap("n", "<leader>7", "7gt", { noremap = true, silent = true
 vim.api.nvim_set_keymap("n", "<leader>8", "8gt", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>9", "9gt", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>0", ":tablast<CR>", { noremap = true, silent = true })
-
 local warnings_enabled = true
 local function toggle_warnings()
 	warnings_enabled = not warnings_enabled
@@ -208,3 +207,16 @@ require("gitsigns").setup({
 		map({ "o", "x" }, "ih", gitsigns.select_hunk, "Select Git hunk")
 	end,
 })
+vim.opt.colorcolumn = "80"
+vim.cmd("highlight ColorColumn guibg=#2E2E2E")
+
+vim.keymap.set("n", "<leader>tl", function()
+	if vim.inspect(vim.opt.colorcolumn:get()) == "{}" then
+		vim.opt.colorcolumn = "80"
+	else
+		vim.opt.colorcolumn = ""
+	end
+	vim.cmd([[highlight ColorColumn ctermbg=lightgrey guibg=lightgrey]])
+end, { desc = "Toggle Line Length Indicator" })
+
+vim.opt.wrap = true

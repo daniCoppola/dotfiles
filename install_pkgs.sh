@@ -7,3 +7,5 @@ sudo apt install alacritty
 sudo apt install wofi
 sudo apt install waybar  grimshot
 sudo apt install tmux
+sudo apt install node npm
+npm install -g markdownlint-cli

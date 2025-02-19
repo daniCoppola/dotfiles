@@ -9,7 +9,6 @@ return {
 
   {
     'nvim-tree/nvim-web-devicons',
-    lazy = true, -- Loads when needed
   },
   {
     'sindrets/diffview.nvim',
