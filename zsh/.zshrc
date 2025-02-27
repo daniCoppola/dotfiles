@@ -135,3 +135,4 @@ export NVM_DIR="$HOME/.nvm"
 export _JAVA_AWT_WM_NONREPARENTING=1
 alias fd=fdfind
 alias vim=nvim
+alias opentofu='docker run --rm -it --env-file .tf-envs -v $(pwd):/src:rw -w /src ghcr.io/opentofu/opentofu:latest'
