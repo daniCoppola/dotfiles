@@ -13,24 +13,23 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# Nvim kickstart
-sudo $package_manager install -y neovim python3-neovim
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 
 CWD=$(pwd)
 cd /tmp 
+# Nvim kickstart
+echo "Download latest NVIM"
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xvzf nvim-linux-x86_64.tar.gz
+
+git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+
 
 echo "Download latest lazygit"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit -D -t /usr/local/bin/
-
-echo "Download latest NVIM"
-curl -LO https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-arm64.tar.gz
-sudo rm -rf /opt/nvim
-sudo tar -C /opt -xvzf nvim-linux-arm64.tar.gz
-sudo chsh -s $(which zsh)
 
 cd $CWD
 
@@ -49,3 +48,4 @@ for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do
   git restore $pkg
   stow $pkg
 done
+echo "In .config/nvim/init.lua set nerd font to true"
