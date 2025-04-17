@@ -41,7 +41,7 @@ sudo $pakage_manager install stow
 for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do
   pkg=$(basename $dir) 
   echo $pkg
-  if [ "$pkg" == ".git" ]; then
+  if [ "$pkg" = ".git" ]; then
       continue  # Skip to the next iteration if it's .git
   fi
   stow --adopt $pkg
