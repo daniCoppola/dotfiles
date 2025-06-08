@@ -1,2 +1,4 @@
 [font]
 normal = { family = "BitstromWeraNerdFont", style = "Regular" }
+[window]
+decorations = "none"
