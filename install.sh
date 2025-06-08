@@ -44,6 +44,9 @@ for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do
   if [ "$pkg" = ".git" ]; then
       continue  # Skip to the next iteration if it's .git
   fi
+  if [ "$pkg" = "gnome_configs" ]; then
+      continue  # Skip to the next iteration if it's .git
+  fi
   stow --adopt $pkg
   git restore $pkg
   stow $pkg

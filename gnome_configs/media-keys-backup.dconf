@@ -1,0 +1,23 @@
+[/]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/']
+terminal=['<Super>Return']
+
+[custom-keybindings/custom0]
+binding='<Super>5'
+command='wmctrl -s 4'
+name='Switch to Worspace 5'
+
+[custom-keybindings/custom1]
+binding='<Super>6'
+command='wmctrl -s 5'
+name='Switch to Workspace 6'
+
+[custom-keybindings/custom2]
+binding='<Super>7'
+command='wmctrl -s 6'
+name='Switch to Worspace 7'
+
+[custom-keybindings/custom3]
+binding='<Super>8'
+command='wmctrl -s 7'
+name='Switch to Worspace 8'
