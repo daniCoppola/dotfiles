@@ -35,9 +35,11 @@ cd $CWD
 
 git config --global user.email "daniele.coppola@inf.ethz.ch"
 git config --global user.name "Daniele Coppola"
+
 ## Begin STOW
+sudo $package_manager install stow
 echo "Begin stowing"
-sudo $pakage_manager install stow
+exit
 for dir in $(find . -maxdepth 1 -mindepth 1 -type d); do
   pkg=$(basename $dir) 
   echo $pkg
